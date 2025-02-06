@@ -15,10 +15,11 @@ public final class Dump {
 
     private short schemaVersion = Dump.CURRENT_SCHEMA_VERSION;
     private DumpMeta meta;
-    private ServerInfo server;
+    private ServerMeta server;
+    private ProjectMeta project;
     private EnvironmentInfo environment;
     private List<PluginInfo> plugins;
-    private List<ConfigFile> configFiles;
+    private List<AttachedFile> files;
     private String latestLog;
 
 }

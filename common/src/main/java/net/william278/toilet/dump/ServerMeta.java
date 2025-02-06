@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ServerInfo {
+public class ServerMeta {
 
-    private String platformVersion;
+    private String serverJarType;
+    private String serverJarVersion;
     private String minecraftVersion;
-    private String brand;
     private boolean onlineMode;
     private ProxyState proxyState;
 
