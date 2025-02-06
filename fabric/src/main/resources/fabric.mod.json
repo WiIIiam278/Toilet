@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "toilet",
+  "version": "${version}",
+  "description": "${description}",
+  "name": "toilet",
+  "authors": [
+    "William278",
+    "QarthO"
+  ],
+  "contact": {
+    "homepage": "https://william278.net/project/toilet",
+    "issues": "https://github.com/WiIIiam278/Toilet/issues",
+    "sources": "https://github.com/WiIIiam278/Toilet"
+  },
+  "license": "GPL-3.0",
+  "custom": {
+    "modmenu:api": true,
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
+  },
+  "depends": {
+    "fabric-api": "*"
+  }
+}
