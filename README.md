@@ -1,6 +1,5 @@
 <!--suppress ALL -->
 <p align="center">
-    <img src="images/banner.png" alt="Toilet Library" />
     <a href="https://github.com/WiIIiam278/Toilet/actions/workflows/ci.yml">
         <img src="https://img.shields.io/github/actions/workflow/status/WiIIiam278/Toilet/ci.yml?branch=master&logo=github"/>
     </a> 
