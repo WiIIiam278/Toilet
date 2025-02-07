@@ -2,12 +2,10 @@ package net.william278.toilet.dump;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.lang.management.ManagementFactory;
 
-@RequiredArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class EnvironmentInfo {
 
     private String javaVersion = System.getProperty("java.version");

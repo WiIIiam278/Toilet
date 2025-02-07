@@ -13,7 +13,7 @@ public abstract class AttachedFile {
     private String fileLabel;
     private String fileContents;
 
-    enum Type {
+    public enum Type {
         CONFIG_FILE,
         DATABASE_FILE
     }

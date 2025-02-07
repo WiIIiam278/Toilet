@@ -1,15 +1,16 @@
 package net.william278.toilet.dump;
 
 import lombok.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DumpMeta {
 
     private Instant timestamp = Instant.now();
 
-    private User creator;
+    private @Nullable DumpUser creator;
 
 }

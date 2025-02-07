@@ -17,7 +17,7 @@ public class PluginInfo {
 
     @NoArgsConstructor
     @AllArgsConstructor
-    public final class Label {
+    public static final class Label {
         private String name;
         private String color;
     }

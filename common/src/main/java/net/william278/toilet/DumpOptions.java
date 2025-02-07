@@ -1,19 +1,21 @@
 package net.william278.toilet;
 
 import lombok.Builder;
+import lombok.Getter;
 import net.william278.toilet.dump.PluginInfo;
 import net.william278.toilet.dump.ProjectMeta;
+import net.william278.toilet.file.ConfigFileReader;
+import net.william278.toilet.file.FileReader;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 // todo - when implementing a plugin, make this a config serializable object, probably.
+@Getter
 @Builder
-public class ToiletOptions {
+public class DumpOptions {
 
     private final String byteBucketUrl;
     private final String viewerUrl;
@@ -21,6 +23,7 @@ public class ToiletOptions {
     private final List<CompatibilityRule> compatibilityRules;
     private final List<FileInclusionRule> fileInclusionRules;
 
+    @Getter
     @Builder
     public static final class CompatibilityRule {
 
@@ -29,18 +32,23 @@ public class ToiletOptions {
 
     }
 
+    @Getter
     @Builder
     public static final class FileInclusionRule {
 
-        private final String filePath;
-        private final String fileLabel;
-        private final Function<String, String> fileReader = (file) -> {
-            try {
-                return String.join("\n", Files.readAllLines(Paths.get(file)));
-            } catch (IOException e) {
-                throw new IllegalStateException(e);
+        private final FileMeta fileMeta;
+
+        @Builder.Default
+        private final FileReader fileReader = new ConfigFileReader();
+
+        public record FileMeta(@NotNull String filePath, @NotNull String fileLabel) {
+
+            @NotNull
+            public Path getPath() {
+                return Paths.get(filePath);
             }
-        };
+
+        }
 
     }
 

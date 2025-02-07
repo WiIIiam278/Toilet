@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class DumpUser {
 
     private String username;
 
