@@ -7,7 +7,7 @@ plugins {
 dependencies {
     def fabricApiVersion
     if (platform.mcVersion == 12001) {
-        fabricApiVersion = "0.92.2+1.20.1"
+        fabricApiVersion = "0.116.0+"
     } else if (platform.mcVersion == 12101) {
         fabricApiVersion = "0.110.0+1.21.1"
     } else if (platform.mcVersion == 12104) {
