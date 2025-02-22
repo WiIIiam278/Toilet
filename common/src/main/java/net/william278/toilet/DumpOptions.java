@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 // todo - when implementing a plugin, make this a config serializable object, probably.
@@ -40,8 +41,10 @@ public class DumpOptions {
     private final String bytebinUrl;
     private final String viewerUrl;
     private final ProjectMeta projectMeta;
-    private final List<CompatibilityRule> compatibilityRules;
-    private final List<FileInclusionRule> fileInclusionRules;
+    @Builder.Default
+    private final List<CompatibilityRule> compatibilityRules = new ArrayList<>();
+    @Builder.Default
+    private final List<FileInclusionRule> fileInclusionRules = new ArrayList<>();
 
     @NotNull
     public List<PluginInfo.Label> getLabelsFor(@NotNull String pluginName,
