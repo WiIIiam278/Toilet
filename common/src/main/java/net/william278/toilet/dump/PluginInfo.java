@@ -31,6 +31,9 @@ import java.util.List;
 @NoArgsConstructor
 public class PluginInfo {
 
+    public static final Label INCOMPATIBLE_LABEL = new Label("Incompatible", "#ff3300");
+    public static final Label WARNING_LABEL = new Label("Warning", "#ffcc00");
+
     private String name;
     private String version;
     private String description;
