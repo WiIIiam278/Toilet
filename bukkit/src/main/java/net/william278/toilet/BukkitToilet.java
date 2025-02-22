@@ -33,7 +33,7 @@ import java.util.List;
 
 public class BukkitToilet extends Toilet {
 
-    private BukkitToilet(DumpOptions options) {
+    private BukkitToilet(@NotNull DumpOptions options) {
         super(options);
     }
 
@@ -61,8 +61,9 @@ public class BukkitToilet extends Toilet {
     @NotNull
     public ServerMeta getServerMeta() {
         return ServerMeta.builder()
-                .minecraftVersion(Bukkit.getServer().getBukkitVersion())
+                .minecraftVersion(Bukkit.getServer().getVersion())
                 .serverJarType(Bukkit.getServer().getName())
+                .serverJarVersion(Bukkit.getServer().getBukkitVersion())
                 .proxyState(ServerMeta.ProxyState.UNKNOWN)
                 .onlineMode(Bukkit.getServer().getOnlineMode())
                 .build();

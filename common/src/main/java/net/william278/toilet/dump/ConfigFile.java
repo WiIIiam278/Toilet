@@ -20,8 +20,11 @@
 
 package net.william278.toilet.dump;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ConfigFile extends AttachedFile {
 
     public ConfigFile(@NotNull String name, @NotNull String label, @NotNull String contents) {
