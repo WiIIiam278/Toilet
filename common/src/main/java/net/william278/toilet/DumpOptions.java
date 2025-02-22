@@ -29,7 +29,6 @@ import net.william278.toilet.file.FileReader;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,15 +73,15 @@ public class DumpOptions {
         private final FileReader fileReader = new ConfigFileReader();
 
         @NotNull
-        public static FileInclusionRule configFile(@NotNull String name, @NotNull String label) {
-            return FileInclusionRule.builder().fileMeta(new FileMeta(name, label)).build();
+        public static FileInclusionRule configFile(@NotNull String fileName, @NotNull String label) {
+            return FileInclusionRule.builder().fileMeta(new FileMeta(fileName, label)).build();
         }
 
-        public record FileMeta(@NotNull String filePath, @NotNull String fileLabel) {
+        public record FileMeta(@NotNull String fileName, @NotNull String fileLabel) {
 
             @NotNull
-            public Path getPath() {
-                return Paths.get(filePath);
+            public Path getPath(@NotNull Path configDirectory) {
+                return configDirectory.resolve(fileName);
             }
 
         }

@@ -37,7 +37,7 @@ public final class ConfigFileReader implements FileReader {
     public Optional<AttachedFile> read(@NotNull DumpOptions.FileInclusionRule.FileMeta meta,
                                        @NotNull Path configDirectory) {
         try {
-            final Path file = meta.getPath();
+            final Path file = meta.getPath(configDirectory);
             if (Files.isRegularFile(file)) {
                 return Optional.of(new ConfigFile(
                         file.getFileName().toString(),

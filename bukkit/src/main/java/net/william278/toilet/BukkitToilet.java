@@ -81,7 +81,8 @@ public class BukkitToilet extends Toilet {
     @NotNull
     public String getLatestLog() {
         try {
-            return Files.readString(Bukkit.getWorldContainer().toPath().resolve("latest.log"));
+            return Files.readString(Bukkit.getWorldContainer().toPath()
+                    .resolve("logs").resolve("latest.log"));
         } catch (IOException e) {
             return "Failed to read latest.log";
         }

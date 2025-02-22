@@ -96,7 +96,7 @@ public class FabricToilet extends Toilet {
     public String getLatestLog() {
         try {
             final FabricLoader instance = FabricLoader.getInstance();
-            return Files.readString(instance.getGameDir().resolve("latest.log"));
+            return Files.readString(instance.getGameDir().resolve("logs").resolve("latest.log"));
         } catch (IOException e) {
             return "Failed to read latest.log";
         }

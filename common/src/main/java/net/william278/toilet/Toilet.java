@@ -83,7 +83,8 @@ public abstract class Toilet implements Dumper, Flusher {
     @NotNull
     public String getLatestLog() {
         try {
-            return Files.readString(Path.of(System.getProperty("user.dir")).resolve("latest.log"));
+            return Files.readString(Path.of(System.getProperty("user.dir"))
+                    .resolve("logs").resolve("latest.log"));
         } catch (IOException e) {
             return "Failed to read latest.log";
         }
