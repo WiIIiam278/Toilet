@@ -29,9 +29,10 @@ public interface Dumper extends DumpMetaProvider, AttachedFileProvider, Environm
         ServerMetaProvider, LatestLogProvider, ConfigDirectoryProvider {
 
     @NotNull
-    default Dump createDump(@Nullable DumpUser dumpCreator) {
+    default Dump createDump(@Nullable PluginStatus status, @Nullable DumpUser dumpCreator) {
         return Dump.builder()
                 .meta(dumpCreator == null ? getDumpMeta() : getDumpMeta(dumpCreator))
+                .status(status)
                 .server(getServerMeta())
                 .project(getProjectMeta())
                 .environment(getEnvironmentInfo())
@@ -39,6 +40,11 @@ public interface Dumper extends DumpMetaProvider, AttachedFileProvider, Environm
                 .files(getAttachedFiles(getProjectConfigDirectory()))
                 .latestLog(getLatestLog())
                 .build();
+    }
+
+    @NotNull
+    default Dump createDump(@Nullable DumpUser dumpCreator) {
+        return this.createDump(null, dumpCreator);
     }
 
     @NotNull

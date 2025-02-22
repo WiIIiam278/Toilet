@@ -26,10 +26,7 @@ import com.google.gson.GsonBuilder;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.william278.toilet.dump.Dump;
-import net.william278.toilet.dump.DumpUser;
-import net.william278.toilet.dump.Dumper;
-import net.william278.toilet.dump.ProjectMeta;
+import net.william278.toilet.dump.*;
 import net.william278.toilet.web.Flusher;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,9 +43,9 @@ public abstract class Toilet implements Dumper, Flusher {
     private DumpOptions options;
 
     @NotNull
-    public final URI dump(@Nullable DumpUser dumper) {
+    public final URI dump(@Nullable PluginStatus status, @Nullable DumpUser dumper) {
         try {
-            final Dump dump = createDump(dumper);
+            final Dump dump = createDump(status, dumper);
             final String json = createGson().toJson(dump);
             final String code = uploadDump(json, options.getBytebinUrl(), options.getProjectMeta().getId());
             return URI.create("%s/%s".formatted(options.getBytebinUrl(), code));
@@ -58,8 +55,19 @@ public abstract class Toilet implements Dumper, Flusher {
     }
 
     @NotNull
+    public final URI dump(@Nullable PluginStatus status) {
+        return this.dump(status, null);
+    }
+
+
+    @NotNull
+    public final URI dump(@Nullable DumpUser dumper) {
+        return this.dump(null, dumper);
+    }
+
+    @NotNull
     public final URI dump() {
-        return this.dump(null);
+        return this.dump(null, null);
     }
 
     @NotNull
