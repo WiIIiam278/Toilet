@@ -25,13 +25,13 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DumpMeta {
 
-    private Instant timestamp = Instant.now();
+    private OffsetDateTime timestamp = OffsetDateTime.now();
 
     private @Nullable DumpUser creator;
 
