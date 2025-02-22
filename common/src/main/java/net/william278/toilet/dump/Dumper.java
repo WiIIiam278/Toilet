@@ -22,6 +22,7 @@ package net.william278.toilet.dump;
 
 import net.william278.toilet.DumpOptions;
 import net.william278.toilet.file.ConfigDirectoryProvider;
+import net.william278.toilet.file.FileFilterer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +39,7 @@ public interface Dumper extends DumpMetaProvider, AttachedFileProvider, Environm
                 .environment(getEnvironmentInfo())
                 .plugins(getPlugins())
                 .files(getAttachedFiles(getProjectConfigDirectory()))
-                .latestLog(getLatestLog())
+                .latestLog(FileFilterer.filterLogs(getLatestLog()))
                 .build();
     }
 

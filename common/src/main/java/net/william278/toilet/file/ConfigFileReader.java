@@ -42,7 +42,7 @@ public final class ConfigFileReader implements FileReader {
                 return Optional.of(new ConfigFile(
                         file.getFileName().toString(),
                         meta.fileLabel(),
-                        Files.readString(file, StandardCharsets.UTF_8)
+                        FileFilterer.filterConfig(Files.readString(file, StandardCharsets.UTF_8))
                 ));
             }
             return Optional.empty();
