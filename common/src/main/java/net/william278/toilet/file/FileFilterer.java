@@ -31,13 +31,14 @@ public final class FileFilterer {
     );
 
     private static final Map<String, String> PASSWORD_FILTERS = Map.of(
-            "((password|PASSWORD|pass|PASS): ?('?\"?\\w+'?\"?))", "<Censored Password>"
+            "((password|PASSWORD|pass|PASS): ?('?\"?\\w+'?\"?))", "<Censored Password>",
+            "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$", "<Censored IP>"
     );
 
     @NotNull
     public static String filterLogs(@NotNull String logs) {
         for (Map.Entry<String, String> entry : LOGS_FILTERS.entrySet()) {
-            logs = logs.replace(entry.getKey(), entry.getValue());
+            logs = logs.replaceAll(entry.getKey(), entry.getValue());
         }
         return logs;
     }
@@ -45,7 +46,7 @@ public final class FileFilterer {
     @NotNull
     public static String filterConfig(@NotNull String config) {
         for (Map.Entry<String, String> entry : PASSWORD_FILTERS.entrySet()) {
-            config = config.replace(entry.getKey(), entry.getValue());
+            config = config.replaceAll(entry.getKey(), entry.getValue());
         }
         return config;
     }
