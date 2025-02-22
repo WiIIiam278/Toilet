@@ -24,6 +24,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 @Builder
 @AllArgsConstructor
@@ -32,9 +33,9 @@ public class ServerMeta {
 
     private String serverJarType;
     private String serverJarVersion;
-    private String minecraftVersion;
+    private @Nullable String minecraftVersion;
     private boolean onlineMode;
-    private ProxyState proxyState;
+    private @Nullable ProxyState proxyState;
 
     public enum ProxyState {
         NO_PROXY,

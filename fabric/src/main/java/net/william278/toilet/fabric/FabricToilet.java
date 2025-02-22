@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class FabricToilet extends Toilet {
 
     private static final String SERVER_TYPE = "fabric";

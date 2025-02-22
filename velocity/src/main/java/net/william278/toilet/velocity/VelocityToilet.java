@@ -18,42 +18,45 @@
  *  limitations under the License.
  */
 
-package net.william278.toilet;
+package net.william278.toilet.velocity;
 
+import com.velocitypowered.api.proxy.ProxyServer;
+import net.william278.toilet.DumpOptions;
+import net.william278.toilet.Toilet;
 import net.william278.toilet.dump.PluginInfo;
 import net.william278.toilet.dump.ServerMeta;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class BukkitToilet extends Toilet {
+public class VelocityToilet extends Toilet {
 
-    private BukkitToilet(@NotNull DumpOptions options) {
+    private final ProxyServer server;
+
+    private VelocityToilet(@NotNull DumpOptions options, @NotNull ProxyServer server) {
         super(options);
+        this.server = server;
     }
 
     @NotNull
-    public static BukkitToilet create(@NotNull DumpOptions options) {
-        return new BukkitToilet(options);
+    public static VelocityToilet create(@NotNull DumpOptions options, @NotNull ProxyServer server) {
+        return new VelocityToilet(options, server);
     }
 
     @Override
     @NotNull
     @Unmodifiable
     public List<PluginInfo> getPlugins() {
-        return Arrays.stream(Bukkit.getServer().getPluginManager().getPlugins())
+        return server.getPluginManager().getPlugins().stream()
                 .map(plugin -> PluginInfo.builder()
-                        .name(plugin.getName())
-                        .labels(getOptions().getLabelsFor(plugin.getName(), plugin.getDescription().getVersion()))
-                        .version(plugin.getDescription().getVersion())
-                        .description(plugin.getDescription().getDescription())
-                        .enabled(plugin.isEnabled())
+                        .name(plugin.getDescription().getName().orElse(plugin.getDescription().getId()))
+                        .labels(getOptions().getLabelsFor(plugin.getDescription().getId(),
+                                plugin.getDescription().getVersion().orElse("unknown")))
+                        .version(plugin.getDescription().getVersion().orElse("unknown"))
+                        .description(plugin.getDescription().getDescription().orElse(""))
+                        .enabled(server.getPluginManager().isLoaded(plugin.getDescription().getId()))
                         .authors(plugin.getDescription().getAuthors()).build())
                 .toList();
     }
@@ -62,22 +65,10 @@ public class BukkitToilet extends Toilet {
     @NotNull
     public ServerMeta getServerMeta() {
         return ServerMeta.builder()
-                .minecraftVersion(Bukkit.getServer().getVersion())
-                .serverJarType(Bukkit.getServer().getName())
-                .serverJarVersion(Bukkit.getServer().getBukkitVersion())
-                .proxyState(ServerMeta.ProxyState.UNKNOWN)
-                .onlineMode(Bukkit.getServer().getOnlineMode())
+                .serverJarType(server.getVersion().getName())
+                .serverJarVersion(server.getVersion().getVersion())
+                .onlineMode(server.getConfiguration().isOnlineMode())
                 .build();
-    }
-
-    @Override
-    @NotNull
-    public String getLatestLog() {
-        try {
-            return Files.readString(Bukkit.getWorldContainer().toPath().resolve("latest.log"));
-        } catch (IOException e) {
-            return "Failed to read latest.log";
-        }
     }
 
 }

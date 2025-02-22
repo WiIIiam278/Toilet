@@ -33,7 +33,10 @@ import net.william278.toilet.web.Flusher;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -67,6 +70,16 @@ public abstract class Toilet implements Dumper, Flusher {
     @NotNull
     public final ProjectMeta getProjectMeta() {
         return options.getProjectMeta();
+    }
+
+    @Override
+    @NotNull
+    public String getLatestLog() {
+        try {
+            return Files.readString(Path.of(System.getProperty("user.dir")).resolve("latest.log"));
+        } catch (IOException e) {
+            return "Failed to read latest.log";
+        }
     }
 
 }
