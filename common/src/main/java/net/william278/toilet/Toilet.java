@@ -20,6 +20,7 @@
 
 package net.william278.toilet;
 
+import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.AccessLevel;
@@ -63,7 +64,7 @@ public abstract class Toilet implements Dumper, Flusher {
 
     @NotNull
     private Gson createGson() {
-        return new GsonBuilder().create();
+        return Converters.registerOffsetDateTime(new GsonBuilder()).create();
     }
 
     @Override
