@@ -33,7 +33,7 @@ import java.util.zip.GZIPOutputStream;
 public interface Flusher {
 
     @NotNull
-    default String sendPostRequest(@NotNull String content, @NotNull String bytebucketUrl) throws IOException {
+    default String uploadDump(@NotNull String content, @NotNull String bytebucketUrl) throws IOException {
         final HttpURLConnection connection = createConnection(bytebucketUrl);
         byte[] compressedContent = compressContent(content);
         sendRequestData(connection, compressedContent);
