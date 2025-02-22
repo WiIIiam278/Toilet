@@ -24,12 +24,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 
 public interface DumpMetaProvider extends DumpElementProvider {
 
     @NotNull
     default DumpMeta getDumpMeta(@Nullable DumpUser dumpCreator) {
-        return new DumpMeta(Instant.now(), dumpCreator);
+        return new DumpMeta(OffsetDateTime.now(), dumpCreator);
     }
 
     @NotNull
