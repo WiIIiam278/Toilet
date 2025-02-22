@@ -70,6 +70,11 @@ public class DumpOptions {
         @Builder.Default
         private final FileReader fileReader = new ConfigFileReader();
 
+        @NotNull
+        public static FileInclusionRule configFile(@NotNull String name, @NotNull String label) {
+            return FileInclusionRule.builder().fileMeta(new FileMeta(name, label)).build();
+        }
+
         public record FileMeta(@NotNull String filePath, @NotNull String fileLabel) {
 
             @NotNull

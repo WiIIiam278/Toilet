@@ -21,11 +21,12 @@
 package net.william278.toilet.dump;
 
 import net.william278.toilet.DumpOptions;
+import net.william278.toilet.file.ConfigDirectoryProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface Dumper extends DumpMetaProvider, AttachedFileProvider, EnvironmentInfoProvider, PluginProvider, ProjectMetaProvider,
-        ServerMetaProvider, LatestLogProvider {
+        ServerMetaProvider, LatestLogProvider, ConfigDirectoryProvider {
 
     @NotNull
     default Dump createDump(@Nullable DumpUser dumpCreator) {
@@ -35,7 +36,7 @@ public interface Dumper extends DumpMetaProvider, AttachedFileProvider, Environm
                 .project(getProjectMeta())
                 .environment(getEnvironmentInfo())
                 .plugins(getPlugins())
-                .files(getAttachedFiles())
+                .files(getAttachedFiles(getProjectConfigDirectory()))
                 .latestLog(getLatestLog())
                 .build();
     }

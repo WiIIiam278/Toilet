@@ -74,6 +74,12 @@ public abstract class Toilet implements Dumper, Flusher {
 
     @Override
     @NotNull
+    public Path getProjectConfigDirectory() {
+        return Path.of(System.getProperty("user.dir")).resolve("plugins").resolve(getProjectMeta().getName());
+    }
+
+    @Override
+    @NotNull
     public String getLatestLog() {
         try {
             return Files.readString(Path.of(System.getProperty("user.dir")).resolve("latest.log"));

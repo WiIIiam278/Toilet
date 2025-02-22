@@ -34,7 +34,8 @@ import java.util.Optional;
 public final class ConfigFileReader implements FileReader {
 
     @Override
-    public Optional<AttachedFile> read(@NotNull DumpOptions.FileInclusionRule.FileMeta meta) {
+    public Optional<AttachedFile> read(@NotNull DumpOptions.FileInclusionRule.FileMeta meta,
+                                       @NotNull Path configDirectory) {
         try {
             final Path file = meta.getPath();
             if (Files.isRegularFile(file)) {

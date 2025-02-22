@@ -32,6 +32,7 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -81,6 +82,13 @@ public class FabricToilet extends Toilet {
                         ? ServerMeta.ProxyState.BEHIND_VELOCITY_PROXY : ServerMeta.ProxyState.NO_PROXY)
                 .onlineMode(server.isOnlineMode())
                 .build();
+    }
+
+    @Override
+    @NotNull
+    public Path getProjectConfigDirectory() {
+        final FabricLoader instance = FabricLoader.getInstance();
+        return instance.getConfigDir().resolve(getProjectMeta().getId());
     }
 
     @Override

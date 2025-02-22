@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,6 +69,12 @@ public class BukkitToilet extends Toilet {
                 .proxyState(ServerMeta.ProxyState.UNKNOWN)
                 .onlineMode(Bukkit.getServer().getOnlineMode())
                 .build();
+    }
+
+    @Override
+    @NotNull
+    public Path getProjectConfigDirectory() {
+        return Bukkit.getWorldContainer().toPath().resolve("plugins").resolve(getProjectMeta().getName());
     }
 
     @Override

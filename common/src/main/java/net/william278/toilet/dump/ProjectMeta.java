@@ -20,9 +20,19 @@
 
 package net.william278.toilet.dump;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProjectMeta {
 
     private String id;
+    private String name;
     private String version;
     private String author;
     private String website;
