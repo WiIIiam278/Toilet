@@ -22,4 +22,4 @@ updates:
       - dependency-name: 'io.papermc.paper:paper-api'
       - dependency-name: 'io.papermc.paper:paper-mojangapi'
       - dependency-name: 'com.velocitypowered:velocity-api'
-      - dependency-name: 'net.fabricmc.fabric-api'
+      - dependency-name: 'net.fabricmc.fabric-api:fabric-api'
