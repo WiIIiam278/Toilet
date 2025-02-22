@@ -33,8 +33,9 @@ import java.util.zip.GZIPOutputStream;
 public interface Flusher {
 
     @NotNull
-    default String uploadDump(@NotNull String content, @NotNull String bytebucketUrl, @NotNull String projectId) throws IOException {
-        final HttpURLConnection connection = createConnection(bytebucketUrl, projectId);
+    default String uploadDump(@NotNull String content, @NotNull String bytebucketUrl,
+                              @NotNull String proj) throws IOException {
+        final HttpURLConnection connection = createConnection(bytebucketUrl, proj);
         byte[] compressedContent = compressContent(content);
         sendRequestData(connection, compressedContent);
 
@@ -57,7 +58,7 @@ public interface Flusher {
         return connection;
     }
 
-    private byte[] compressContent(String content) throws IOException {
+    private byte[] compressContent(@NotNull String content) throws IOException {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) {
             gzipOutputStream.write(content.getBytes(StandardCharsets.UTF_8));
@@ -66,7 +67,7 @@ public interface Flusher {
         }
     }
 
-    private void sendRequestData(HttpURLConnection connection, byte[] compressedContent) throws IOException {
+    private void sendRequestData(@NotNull HttpURLConnection connection, byte[] compressedContent) throws IOException {
         try (OutputStream outputStream = connection.getOutputStream()) {
             outputStream.write(compressedContent);
         }
@@ -79,7 +80,7 @@ public interface Flusher {
     }
 
     @NotNull
-    private String getLocationHeader(HttpURLConnection connection) throws IOException {
+    private String getLocationHeader(@NotNull HttpURLConnection connection) throws IOException {
         String locationHeader = connection.getHeaderField("Location");
         if (locationHeader == null) {
             throw new IOException("Location header is missing from the response");
