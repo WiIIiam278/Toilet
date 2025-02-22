@@ -33,8 +33,8 @@ import java.util.zip.GZIPOutputStream;
 public interface Flusher {
 
     @NotNull
-    default String uploadDump(@NotNull String content, @NotNull String bytebucketUrl) throws IOException {
-        final HttpURLConnection connection = createConnection(bytebucketUrl);
+    default String uploadDump(@NotNull String content, @NotNull String bytebucketUrl, @NotNull String projectId) throws IOException {
+        final HttpURLConnection connection = createConnection(bytebucketUrl, projectId);
         byte[] compressedContent = compressContent(content);
         sendRequestData(connection, compressedContent);
 
@@ -46,12 +46,12 @@ public interface Flusher {
     }
 
     @NotNull
-    private HttpURLConnection createConnection(@NotNull String bytebucketUrl) throws IOException {
+    private HttpURLConnection createConnection(@NotNull String bytebucketUrl, @NotNull String proj) throws IOException {
         final URL url = new URL("%s/post".formatted(bytebucketUrl));
         final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("User-Agent", "william278/toilet-java-client/huskhomes");
+        connection.setRequestProperty("User-Agent", "william278/toilet-java-client/%s".formatted(proj));
         connection.setRequestProperty("Content-Encoding", "gzip");
         connection.setDoOutput(true);
         return connection;
