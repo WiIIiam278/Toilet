@@ -22,6 +22,7 @@ package net.william278.toilet.dump;
 
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,8 +90,12 @@ public class PluginStatus {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ChartKey {
         private String label;
-        private String icon;
-        private int color;
+        private @Nullable String icon;
+        private int color = 0xffffff;
+
+        public ChartKey(@NotNull String label) {
+            this.label = label;
+        }
     }
 
     public enum ChartType {

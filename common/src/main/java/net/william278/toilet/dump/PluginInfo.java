@@ -23,6 +23,8 @@ package net.william278.toilet.dump;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -45,7 +47,17 @@ public class PluginInfo {
     @AllArgsConstructor
     public static final class Label {
         private String name;
-        private String color;
+        private @Nullable String color;
+        private @Nullable String description;
+
+        public Label(@NotNull String name, @Nullable String color) {
+            this.name = name;
+            this.color = color;
+        }
+
+        public Label(String name) {
+            this(name, null);
+        }
     }
 
 }
