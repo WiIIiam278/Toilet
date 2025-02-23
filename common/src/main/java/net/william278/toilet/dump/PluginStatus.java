@@ -54,25 +54,39 @@ public class PluginStatus {
         private String icon;
     }
 
-    @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ListStatusBlock extends StatusBlock {
         private List<String> status = new ArrayList<>();
+
+        public ListStatusBlock(@NotNull List<String> status,
+                               @NotNull String label, @NotNull String icon) {
+            super(BlockType.LIST, label, icon);
+            this.status = status;
+        }
     }
 
-    @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class MapStatusBlock extends StatusBlock {
         private Map<String, String> status = new HashMap<>();
+
+        public MapStatusBlock(@NotNull Map<String, String> status,
+                              @NotNull String label, @NotNull String icon) {
+            super(BlockType.MAP, label, icon);
+            this.status = status;
+        }
     }
 
-    @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class TableStatusBlock extends StatusBlock {
         private List<List<String>> status = new ArrayList<>();
+
+        public TableStatusBlock(@NotNull List<List<String>> status,
+                                @NotNull String label, @NotNull String icon) {
+            super(BlockType.TABLE, label, icon);
+            this.status = status;
+        }
     }
 
-    @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ChartStatusBlock extends StatusBlock {
         private Map<ChartKey, Integer> values = new HashMap<>();
