@@ -24,6 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 @NoArgsConstructor
@@ -37,7 +38,8 @@ public class ProjectMeta {
     private String author;
     private String website;
     private String support;
-    private String sha;
+    private @Nullable String md5;
+    private @Nullable String sha;
     private String sourceCode;
 
 }
