@@ -27,6 +27,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.william278.toilet.dump.*;
+import net.william278.toilet.util.StatusBlockDeserializer;
 import net.william278.toilet.web.Flusher;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +73,9 @@ public abstract class Toilet implements Dumper, Flusher {
 
     @NotNull
     private Gson createGson() {
-        return Converters.registerOffsetDateTime(new GsonBuilder()).create();
+        return Converters.registerOffsetDateTime(
+                new GsonBuilder().registerTypeAdapter(PluginStatus.StatusBlock.class, new StatusBlockDeserializer())
+        ).create();
     }
 
     @Override

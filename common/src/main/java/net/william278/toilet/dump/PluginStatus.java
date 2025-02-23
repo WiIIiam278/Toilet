@@ -20,16 +20,89 @@
 
 package net.william278.toilet.dump;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@SuppressWarnings("unused")
 public class PluginStatus {
 
+    @Builder.Default
     private Map<String, String> status = new HashMap<>();
+
+    @Builder.Default
+    private List<StatusBlock> blocks = new ArrayList<>();
+
+    public PluginStatus(@NotNull Map<String, String> status) {
+        this.status = status;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static abstract class StatusBlock {
+        private BlockType type;
+        private String label;
+        private String icon;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ListStatusBlock extends StatusBlock {
+        private List<String> status = new ArrayList<>();
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class MapStatusBlock extends StatusBlock {
+        private Map<String, String> status = new HashMap<>();
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class TableStatusBlock extends StatusBlock {
+        private List<List<String>> status = new ArrayList<>();
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ChartStatusBlock extends StatusBlock {
+        private Map<ChartKey, Integer> values = new HashMap<>();
+        private ChartType type;
+
+        public ChartStatusBlock(@NotNull Map<ChartKey, Integer> values, @NotNull ChartType type,
+                                @NotNull String label, @NotNull String icon) {
+            super(BlockType.CHART, label, icon);
+            this.values = values;
+            this.type = type;
+        }
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ChartKey {
+        private String label;
+        private String icon;
+        private int color;
+    }
+
+    public enum ChartType {
+        BAR,
+        PIE
+    }
+
+    public enum BlockType {
+        LIST,
+        MAP,
+        CHART,
+        TABLE
+    }
 
 }
