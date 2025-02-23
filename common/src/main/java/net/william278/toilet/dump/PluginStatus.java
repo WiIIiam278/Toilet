@@ -90,13 +90,13 @@ public class PluginStatus {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ChartStatusBlock extends StatusBlock {
         private Map<ChartKey, Integer> values = new HashMap<>();
-        private ChartType type;
+        private ChartType chartType;
 
-        public ChartStatusBlock(@NotNull Map<ChartKey, Integer> values, @NotNull ChartType type,
+        public ChartStatusBlock(@NotNull Map<ChartKey, Integer> values, @NotNull ChartType chartType,
                                 @NotNull String label, @NotNull String icon) {
             super(BlockType.CHART, label, icon);
             this.values = values;
-            this.type = type;
+            this.chartType = chartType;
         }
     }
 
