@@ -27,12 +27,12 @@ import java.util.Map;
 public final class FileFilterer {
 
     private static final Map<String, String> LOGS_FILTERS = Map.of(
-            "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$", "<Censored IP>"
+            "(?:[0-9]{1,3}\\\\.){3}[0-9]{1,3}", "<Censored IP>"
     );
 
     private static final Map<String, String> PASSWORD_FILTERS = Map.of(
             "((password|PASSWORD|pass|PASS): ?('?\"?\\w+'?\"?))", "<Censored Password>",
-            "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$", "<Censored IP>"
+            "(?:[0-9]{1,3}\\\\.){3}[0-9]{1,3}", "<Censored IP>"
     );
 
     @NotNull

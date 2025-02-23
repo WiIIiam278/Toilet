@@ -48,7 +48,7 @@ public abstract class Toilet implements Dumper, Flusher {
             final Dump dump = createDump(status, dumper);
             final String json = createGson().toJson(dump);
             final String code = uploadDump(json, options.getBytebinUrl(), options.getProjectMeta().getId());
-            return URI.create("%s/%s".formatted(options.getBytebinUrl(), code));
+            return URI.create("%s/%s".formatted(options.getViewerUrl(), code));
         } catch (Throwable e) {
             throw new IllegalStateException("Failed to create dump: %s".formatted(e.getCause()), e);
         }
