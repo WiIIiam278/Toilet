@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,14 +37,7 @@ import java.util.Map;
 public class PluginStatus {
 
     @Builder.Default
-    private Map<String, String> status = new HashMap<>();
-
-    @Builder.Default
     private List<StatusBlock> blocks = new ArrayList<>();
-
-    public PluginStatus(@NotNull Map<String, String> status) {
-        this.status = status;
-    }
 
     @Getter
     @AllArgsConstructor
@@ -89,17 +83,24 @@ public class PluginStatus {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ChartStatusBlock extends StatusBlock {
-        private Map<ChartKey, Integer> values = new HashMap<>();
+        private Map<String, Integer> values = new HashMap<>();
+        private Map<String, ChartKey> keys = new HashMap<>();
         private ChartType chartType;
 
         public ChartStatusBlock(@NotNull Map<ChartKey, Integer> values, @NotNull ChartType chartType,
                                 @NotNull String label, @NotNull String icon) {
             super(BlockType.CHART, label, icon);
-            this.values = values;
+            this.values = values.entrySet().stream()
+                    .map(e -> Map.entry(e.getKey().getLabel(), e.getValue()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            this.keys = values.keySet().stream()
+                    .map(integer -> Map.entry(integer.getLabel(), integer))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             this.chartType = chartType;
         }
     }
 
+    @Getter
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ChartKey {
