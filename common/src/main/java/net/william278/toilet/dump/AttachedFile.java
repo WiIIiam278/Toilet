@@ -35,6 +35,7 @@ public abstract class AttachedFile {
 
     public enum Type {
         CONFIG_FILE,
-        DATABASE_FILE
+        DATABASE_FILE,
+        EXTRA_FILE
     }
 }

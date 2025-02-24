@@ -22,6 +22,7 @@ package net.william278.toilet;
 
 import net.william278.toilet.dump.PluginInfo;
 import net.william278.toilet.dump.ServerMeta;
+import net.william278.toilet.util.FileReaderUtil;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -81,8 +82,8 @@ public class BukkitToilet extends Toilet {
     @NotNull
     public String getLatestLog() {
         try {
-            return Files.readString(Bukkit.getWorldContainer().toPath()
-                    .resolve("logs").resolve("latest.log"));
+            return FileReaderUtil.readLargeFile(Bukkit.getWorldContainer().toPath()
+                    .resolve("logs").resolve("latest.log"), LATEST_LOG_MAX_LINES);
         } catch (IOException e) {
             return "Failed to read latest.log";
         }

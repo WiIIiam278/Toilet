@@ -27,6 +27,7 @@ import net.william278.toilet.DumpOptions;
 import net.william278.toilet.Toilet;
 import net.william278.toilet.dump.PluginInfo;
 import net.william278.toilet.dump.ServerMeta;
+import net.william278.toilet.util.FileReaderUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -96,7 +97,8 @@ public class FabricToilet extends Toilet {
     public String getLatestLog() {
         try {
             final FabricLoader instance = FabricLoader.getInstance();
-            return Files.readString(instance.getGameDir().resolve("logs").resolve("latest.log"));
+            return FileReaderUtil.readLargeFile(instance.getGameDir().resolve("logs")
+                    .resolve("latest.log"), LATEST_LOG_MAX_LINES);
         } catch (IOException e) {
             return "Failed to read latest.log";
         }

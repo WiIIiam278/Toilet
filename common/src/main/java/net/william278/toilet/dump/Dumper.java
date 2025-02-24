@@ -22,15 +22,20 @@ package net.william278.toilet.dump;
 
 import net.william278.toilet.DumpOptions;
 import net.william278.toilet.file.ConfigDirectoryProvider;
-import net.william278.toilet.file.FileFilterer;
+import net.william278.toilet.util.FileFilterUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 public interface Dumper extends DumpMetaProvider, AttachedFileProvider, EnvironmentInfoProvider, PluginProvider, ProjectMetaProvider,
         ServerMetaProvider, LatestLogProvider, ConfigDirectoryProvider {
 
     @NotNull
-    default Dump createDump(@Nullable PluginStatus status, @Nullable DumpUser dumpCreator) {
+    default Dump createDump(@Nullable PluginStatus status, @Nullable DumpUser dumpCreator,
+                            @NotNull ExtraFile... extraFiles) {
         return Dump.builder()
                 .meta(dumpCreator == null ? getDumpMeta() : getDumpMeta(dumpCreator))
                 .status(status)
@@ -38,19 +43,21 @@ public interface Dumper extends DumpMetaProvider, AttachedFileProvider, Environm
                 .project(getProjectMeta())
                 .environment(getEnvironmentInfo())
                 .plugins(getPlugins())
-                .files(getAttachedFiles(getProjectConfigDirectory()))
-                .latestLog(FileFilterer.filterLogs(getLatestLog()))
+                .files(Stream.concat(
+                        getAttachedFiles(getProjectConfigDirectory()).stream(),
+                        Arrays.stream(extraFiles)).toList())
+                .latestLog(FileFilterUtil.filterLogs(getLatestLog()))
                 .build();
     }
 
     @NotNull
-    default Dump createDump(@Nullable DumpUser dumpCreator) {
-        return this.createDump(null, dumpCreator);
+    default Dump createDump(@Nullable DumpUser dumpCreator, @NotNull ExtraFile... extraFiles) {
+        return this.createDump(null, dumpCreator, extraFiles);
     }
 
     @NotNull
-    default Dump createDump() {
-        return this.createDump(null);
+    default Dump createDump(@NotNull ExtraFile... extraFiles) {
+        return this.createDump(null, null, extraFiles);
     }
 
     @NotNull

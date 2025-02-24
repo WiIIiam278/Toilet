@@ -27,6 +27,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.william278.toilet.dump.*;
+import net.william278.toilet.util.FileReaderUtil;
 import net.william278.toilet.util.StatusBlockDeserializer;
 import net.william278.toilet.web.Flusher;
 import org.jetbrains.annotations.NotNull;
@@ -34,13 +35,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Toilet implements Dumper, Flusher {
 
+    protected static final int LATEST_LOG_MAX_LINES = 1500;
     private DumpOptions options;
 
     @NotNull
@@ -94,8 +95,8 @@ public abstract class Toilet implements Dumper, Flusher {
     @NotNull
     public String getLatestLog() {
         try {
-            return Files.readString(Path.of(System.getProperty("user.dir"))
-                    .resolve("logs").resolve("latest.log"));
+            return FileReaderUtil.readLargeFile(Path.of(System.getProperty("user.dir"))
+                    .resolve("logs").resolve("latest.log"), LATEST_LOG_MAX_LINES);
         } catch (IOException e) {
             return "Failed to read latest.log";
         }

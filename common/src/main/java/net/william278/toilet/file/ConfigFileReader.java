@@ -23,15 +23,18 @@ package net.william278.toilet.file;
 import net.william278.toilet.DumpOptions;
 import net.william278.toilet.dump.AttachedFile;
 import net.william278.toilet.dump.ConfigFile;
+import net.william278.toilet.util.FileFilterUtil;
+import net.william278.toilet.util.FileReaderUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
 public final class ConfigFileReader implements FileReader {
+
+    private static final int CONFIG_MAX_LINES = 1000;
 
     @Override
     public Optional<AttachedFile> read(@NotNull DumpOptions.FileInclusionRule.FileMeta meta,
@@ -42,7 +45,7 @@ public final class ConfigFileReader implements FileReader {
                 return Optional.of(new ConfigFile(
                         file.getFileName().toString(),
                         meta.fileLabel(),
-                        FileFilterer.filterConfig(Files.readString(file, StandardCharsets.UTF_8))
+                        FileFilterUtil.filterConfig(FileReaderUtil.readLargeFile(file, CONFIG_MAX_LINES))
                 ));
             }
             return Optional.empty();

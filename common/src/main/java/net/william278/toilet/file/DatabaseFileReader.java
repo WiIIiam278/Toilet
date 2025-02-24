@@ -36,7 +36,6 @@ public final class DatabaseFileReader implements FileReader {
 //        try {
 //            final Path file = Paths.get(path);
 //            if (Files.isRegularFile(file)) {
-//                return Optional.of(Files.readString(file, StandardCharsets.UTF_8));
 //            }
 //            return Optional.empty();
 //        } catch (IOException e) {

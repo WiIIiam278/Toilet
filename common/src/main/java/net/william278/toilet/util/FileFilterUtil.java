@@ -18,21 +18,21 @@
  *  limitations under the License.
  */
 
-package net.william278.toilet.file;
+package net.william278.toilet.util;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public final class FileFilterer {
+public final class FileFilterUtil {
 
     private static final Map<String, String> LOGS_FILTERS = Map.of(
-            "(?:[0-9]{1,3}\\\\.){3}[0-9]{1,3}", "<Censored IP>"
+            "(?:[0-9]{1,3}\\.){3}[0-9]{1,3}", "<Censored IP>"
     );
 
     private static final Map<String, String> PASSWORD_FILTERS = Map.of(
             "((password|PASSWORD|pass|PASS): ?('?\"?\\w+'?\"?))", "<Censored Password>",
-            "(?:[0-9]{1,3}\\\\.){3}[0-9]{1,3}", "<Censored IP>"
+            "(?:[0-9]{1,3}\\.){3}[0-9]{1,3}", "<Censored IP>"
     );
 
     @NotNull
