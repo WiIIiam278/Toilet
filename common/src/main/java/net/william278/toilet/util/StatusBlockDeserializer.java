@@ -27,16 +27,17 @@ import java.lang.reflect.Type;
 
 public class StatusBlockDeserializer implements JsonDeserializer<PluginStatus.StatusBlock> {
 
+    private static final Gson GSON = new Gson();
+
     @Override
     public PluginStatus.StatusBlock deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
         final JsonObject object = json.getAsJsonObject();
         final PluginStatus.BlockType blockType = PluginStatus.BlockType.valueOf(object.get("type").getAsString());
-        final Gson gson = new Gson();
         return switch (blockType) {
-            case MAP -> gson.fromJson(object, PluginStatus.MapStatusBlock.class);
-            case LIST -> gson.fromJson(object, PluginStatus.ListStatusBlock.class);
-            case CHART -> gson.fromJson(object, PluginStatus.ChartStatusBlock.class);
-            case TABLE -> gson.fromJson(object, PluginStatus.TableStatusBlock.class);
+            case MAP -> GSON.fromJson(object, PluginStatus.MapStatusBlock.class);
+            case LIST -> GSON.fromJson(object, PluginStatus.ListStatusBlock.class);
+            case CHART -> GSON.fromJson(object, PluginStatus.ChartStatusBlock.class);
+            case TABLE -> GSON.fromJson(object, PluginStatus.TableStatusBlock.class);
         };
     }
 
