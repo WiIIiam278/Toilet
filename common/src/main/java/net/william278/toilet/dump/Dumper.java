@@ -27,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 
 public interface Dumper extends DumpMetaProvider, AttachedFileProvider, EnvironmentInfoProvider, PluginProvider, ProjectMetaProvider,

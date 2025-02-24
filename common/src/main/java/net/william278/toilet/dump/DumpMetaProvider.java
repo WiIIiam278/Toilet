@@ -23,7 +23,6 @@ package net.william278.toilet.dump;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
 
 public interface DumpMetaProvider extends DumpElementProvider {

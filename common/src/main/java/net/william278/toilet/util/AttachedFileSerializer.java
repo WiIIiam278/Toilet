@@ -21,12 +21,11 @@
 package net.william278.toilet.util;
 
 import com.google.gson.*;
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import net.william278.toilet.dump.*;
+import net.william278.toilet.dump.AttachedFile;
+import net.william278.toilet.dump.ConfigFile;
+import net.william278.toilet.dump.DatabaseFile;
+import net.william278.toilet.dump.ExtraFile;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 
 public class AttachedFileSerializer implements JsonSerializer<AttachedFile>, JsonDeserializer<AttachedFile> {
