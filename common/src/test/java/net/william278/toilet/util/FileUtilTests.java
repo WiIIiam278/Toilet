@@ -22,6 +22,7 @@ package net.william278.toilet.util;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -30,7 +31,8 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FileFilterUtilTests {
+@DisplayName("File Util Tests")
+public class FileUtilTests {
 
     private static final String LOG_FILE = "test_log.log";
     private static Path TEMP_DIR;
@@ -38,7 +40,7 @@ public class FileFilterUtilTests {
 
     @BeforeAll
     static void setUp() throws IOException {
-        InputStream resourceInputStream = FileFilterUtilTests.class.getClassLoader().getResourceAsStream(LOG_FILE);
+        InputStream resourceInputStream = FileUtilTests.class.getClassLoader().getResourceAsStream(LOG_FILE);
         if (resourceInputStream == null) throw new FileNotFoundException("Resource not found");
 
         TEMP_DIR = Files.createTempDirectory(Path.of(System.getProperty("java.io.tmpdir")), "tempResourceDir");
@@ -61,11 +63,13 @@ public class FileFilterUtilTests {
     }
 
     @Test
+    @DisplayName("Test temp file copying")
     void testResourceFileCopy() {
         assertTrue(Files.exists(TEMP_FILE));
     }
 
     @Test
+    @DisplayName("Test file last-X-lines loading")
     void testLastNumLinesReading() throws IOException {
         int lines = 500;
         final String file = FileReaderUtil.readLargeFile(TEMP_FILE, lines);
@@ -73,6 +77,7 @@ public class FileFilterUtilTests {
     }
 
     @Test
+    @DisplayName("Test IP filtering")
     void testIpFiltering() {
         assertAll(
                 () -> assertEquals( "<Censored IP>",
