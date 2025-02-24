@@ -45,9 +45,9 @@ public abstract class Toilet implements Dumper, Flusher {
     private DumpOptions options;
 
     @NotNull
-    public final URI dump(@Nullable PluginStatus status, @Nullable DumpUser dumper) {
+    public final URI dump(@Nullable PluginStatus status, @Nullable DumpUser dumper, @NotNull ExtraFile... extraFiles) {
         try {
-            final Dump dump = createDump(status, dumper);
+            final Dump dump = createDump(status, dumper, extraFiles);
             final String json = createGson().toJson(dump);
             final String code = uploadDump(json, options.getBytebinUrl(), options.getProjectMeta().getId());
             return URI.create("%s/%s".formatted(options.getViewerUrl(), code));
@@ -57,19 +57,18 @@ public abstract class Toilet implements Dumper, Flusher {
     }
 
     @NotNull
-    public final URI dump(@Nullable PluginStatus status) {
-        return this.dump(status, null);
-    }
-
-
-    @NotNull
-    public final URI dump(@Nullable DumpUser dumper) {
-        return this.dump(null, dumper);
+    public final URI dump(@Nullable PluginStatus status, @NotNull ExtraFile... extraFiles) {
+        return this.dump(status, null, extraFiles);
     }
 
     @NotNull
-    public final URI dump() {
-        return this.dump(null, null);
+    public final URI dump(@Nullable DumpUser dumper, @NotNull ExtraFile... extraFiles) {
+        return this.dump(null, dumper, extraFiles);
+    }
+
+    @NotNull
+    public final URI dump(@NotNull ExtraFile... extraFiles) {
+        return this.dump(null, null, extraFiles);
     }
 
     @NotNull
