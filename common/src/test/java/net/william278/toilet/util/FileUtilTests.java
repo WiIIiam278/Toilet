@@ -73,18 +73,21 @@ public class FileUtilTests {
     void testLastNumLinesReading() throws IOException {
         int lines = 500;
         final String file = FileReaderUtil.readLargeFile(TEMP_FILE, lines);
-        assertEquals(lines, file.split("\n").length);
+        assertAll(
+                () -> assertEquals(lines, file.split("\n").length),
+                () -> assertFalse(file.split("\n")[0].startsWith("Proin maximus risus et ultricies ultricies."))
+        );
     }
 
     @Test
     @DisplayName("Test IP filtering")
     void testIpFiltering() {
         assertAll(
-                () -> assertEquals( "<Censored IP>",
+                () -> assertEquals("<Censored IP>",
                         FileFilterUtil.filterLogs("79.21.112.166")),
-                () -> assertEquals( "<Censored IP>:12345",
+                () -> assertEquals("<Censored IP>:12345",
                         FileFilterUtil.filterLogs("79.21.112.166:12345")),
-                () -> assertEquals( "Username (/<Censored IP>:12345) has disconnected",
+                () -> assertEquals("Username (/<Censored IP>:12345) has disconnected",
                         FileFilterUtil.filterLogs("Username (/17.34.112.166:12345) has disconnected"))
         );
     }
