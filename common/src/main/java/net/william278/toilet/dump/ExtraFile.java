@@ -21,10 +21,12 @@
 package net.william278.toilet.dump;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExtraFile extends AttachedFile {
 
