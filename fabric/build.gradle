@@ -12,6 +12,8 @@ dependencies {
         fabricApiVersion = "0.110.0+1.21.1"
     } else if (platform.mcVersion == 12104) {
         fabricApiVersion = "0.111.0+1.21.4"
+    } else if (platform.mcVersion == 12105) {
+        fabricApiVersion = "0.119.6+1.21.5"
     } else {
         throw org.gradle.api.GradleException("Unsupported platform $platform")
     }
