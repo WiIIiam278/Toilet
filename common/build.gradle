@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    compileOnlyApi 'net.kyori:adventure-api:4.20.0'
+    compileOnlyApi 'net.kyori:adventure-api:4.23.0'
 
     api ('com.fatboyindustrial.gson-javatime-serialisers:gson-javatime-serialisers:1.1.2') {
         exclude group: 'com.google.code.gson'
