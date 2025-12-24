@@ -24,8 +24,8 @@ dependencies {
 
     modCompileOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
 
-    modCompileOnly 'org.projectlombok:lombok:1.18.38'
-    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    modCompileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
 
     shadow project(path: ':common')
 }
