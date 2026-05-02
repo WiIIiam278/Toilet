@@ -18,7 +18,7 @@ dependencies {
 
 sourceSets {
     main {
-        java.srcDirs = ['../src/main/java']
+        java.srcDirs = ['src/main/java']
         resources.srcDirs = ['../src/main/resources']
     }
 }
@@ -26,6 +26,10 @@ sourceSets {
 java {
     sourceCompatibility = JavaVersion.VERSION_25
     targetCompatibility = JavaVersion.VERSION_25
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release.set(25)
 }
 
 shadowJar {
