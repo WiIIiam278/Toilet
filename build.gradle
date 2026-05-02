@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 plugins {
     id 'org.cadixdev.licenser' version '0.6.1' apply false
     id 'gg.essential.multi-version.root' apply false
-    id 'dev.architectury.loom' version '1.13-SNAPSHOT' apply false
+    id 'dev.architectury.loom' version '1.14-SNAPSHOT' apply false
     id 'io.github.goooler.shadow' version '8.1.8'
     id 'org.ajoberstar.grgit' version '5.3.2'
     id 'maven-publish'
@@ -13,7 +13,7 @@ plugins {
 group 'net.william278'
 version "$ext.library_version${versionMetadata()}"
 description "$ext.library_description"
-defaultTasks 'licenseFormat', 'build'
+defaultTasks 'build'
 
 ext {
     set 'version', version.toString()
@@ -57,11 +57,10 @@ allprojects {
     }
 
     apply plugin: 'io.github.goooler.shadow'
-    apply plugin: 'org.cadixdev.licenser'
     apply plugin: 'java'
 
     compileJava.options.encoding = 'UTF-8'
-    compileJava.options.release.set 17
+    compileJava.options.release.set Integer.parseInt(rootProject.property('javaVersion').toString())
     javadoc.options.encoding = 'UTF-8'
     javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
@@ -89,10 +88,14 @@ allprojects {
         useJUnitPlatform()
     }
 
-    license {
-        header = rootProject.file('HEADER')
-        include '**/*.java'
-        newLine = true
+    if (gradle.startParameter.taskNames.any { it.toLowerCase().contains('license') }) {
+        apply plugin: 'org.cadixdev.licenser'
+
+        license {
+            header = rootProject.file('HEADER')
+            include '**/*.java'
+            newLine = true
+        }
     }
 
     processResources {
@@ -117,7 +120,10 @@ subprojects {
         name += "-${project.parent.name.capitalize()}"
     }
     name += "-${project.name.capitalize()}"
-    archivesBaseName = name
+
+    base {
+        archivesName = name
+    }
 
     jar {
         from '../LICENSE'
@@ -198,14 +204,35 @@ subprojects {
         }
 
         if (project.parent?.name?.equals('fabric')) {
-            publications {
-                "mavenJavaFabric_${project.name.replace('.', '_')}"(MavenPublication) {
-                    groupId = 'net.william278.toilet'
-                    artifactId = 'toilet-fabric'
-                    version = "$rootProject.version+$project.name"
-                    artifact remapJar
-                    artifact sourcesJar
-                    artifact javadocJar
+            afterEvaluate {
+                publishing {
+                    publications {
+                        "mavenJavaFabric_${project.name.replace('.', '_')}"(MavenPublication) {
+                            groupId = 'net.william278.toilet'
+                            artifactId = 'toilet-fabric'
+                            version = "$rootProject.version+$project.name"
+                            artifact tasks.named('remapJar').get()
+                            artifact tasks.named('sourcesJar').get()
+                            artifact tasks.named('javadocJar').get()
+                        }
+                    }
+                }
+            }
+        }
+
+        if (project.name == 'fabric-26.1.2') {
+            afterEvaluate {
+                publishing {
+                    publications {
+                        mavenJavaFabric2612(MavenPublication) {
+                            groupId = 'net.william278.toilet'
+                            artifactId = 'toilet-fabric'
+                            version = "$rootProject.version+26.1.2"
+                            artifact tasks.named('shadowJar').get()
+                            artifact tasks.named('sourcesJar').get()
+                            artifact tasks.named('javadocJar').get()
+                        }
+                    }
                 }
             }
         }

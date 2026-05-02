@@ -74,13 +74,13 @@ public class FabricToilet extends Toilet {
     public ServerMeta getServerMeta() {
         final FabricLoader instance = FabricLoader.getInstance();
         return ServerMeta.builder()
-                .minecraftVersion(server.getVersion())
+                .minecraftVersion(resolveMinecraftVersion())
                 .serverJarType(SERVER_TYPE)
                 .serverJarVersion(instance.getModContainer("fabricloader").map(m -> m.getMetadata()
                         .getVersion().getFriendlyString()).orElse("unknown"))
                 .proxyState(instance.isModLoaded(PROXY_MOD)
                         ? ServerMeta.ProxyState.BEHIND_VELOCITY_PROXY : ServerMeta.ProxyState.NO_PROXY)
-                .onlineMode(server.isOnlineMode())
+                .onlineMode(resolveOnlineMode())
                 .build();
     }
 
@@ -101,6 +101,30 @@ public class FabricToilet extends Toilet {
         } catch (IOException e) {
             return "Failed to read latest.log";
         }
+    }
+
+    @NotNull
+    private String resolveMinecraftVersion() {
+        return invokeServerMethod("getServerVersion", "getVersion")
+                .map(String::valueOf)
+                .orElse("unknown");
+    }
+
+    private boolean resolveOnlineMode() {
+        return invokeServerMethod("usesAuthentication", "isOnlineMode")
+                .map(Boolean.class::cast)
+                .orElse(false);
+    }
+
+    private java.util.Optional<Object> invokeServerMethod(@NotNull String... methodNames) {
+        for (String methodName : methodNames) {
+            try {
+                return java.util.Optional.ofNullable(server.getClass().getMethod(methodName).invoke(server));
+            } catch (ReflectiveOperationException ignored) {
+                // Fall through and try the next known method name for this Minecraft version.
+            }
+        }
+        return java.util.Optional.empty();
     }
 
 }
