@@ -34,18 +34,21 @@ project(":fabric").with {
 }
 
 file('fabric').listFiles((FileFilter) ((File file) -> file.isDirectory() && file.name ==~ /(\d+)\.(\d+)(\.(\d+))?/)).each {
-    if (it.name == '26.1.2') {
+    def fabricVersion = it.name
+    def fabricMajorVersion = fabricVersion.split('\\.')[0] as int
+
+    if (fabricMajorVersion >= 26) {
+        include("fabric-$fabricVersion")
+        project(":fabric-$fabricVersion").with {
+            projectDir = file("fabric/$fabricVersion")
+            buildFileName = 'build.gradle'
+        }
         return
     }
-    include("fabric:$it.name")
-    project(":fabric:$it.name").with {
-        projectDir = file("fabric/${it.name}")
+
+    include("fabric:$fabricVersion")
+    project(":fabric:$fabricVersion").with {
+        projectDir = file("fabric/$fabricVersion")
         buildFileName = '../build.gradle'
     }
-}
-
-include('fabric-26.1.2')
-project(':fabric-26.1.2').with {
-    projectDir = file('fabric/26.1.2')
-    buildFileName = 'build.gradle'
 }

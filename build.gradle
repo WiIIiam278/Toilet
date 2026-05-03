@@ -220,14 +220,15 @@ subprojects {
             }
         }
 
-        if (project.name == 'fabric-26.1.2') {
+        if (project.name.startsWith('fabric-')) {
+            def fabricVersion = project.name.substring('fabric-'.length())
             afterEvaluate {
                 publishing {
                     publications {
-                        mavenJavaFabric2612(MavenPublication) {
+                        "mavenJavaFabric_${fabricVersion.replace('.', '_')}"(MavenPublication) {
                             groupId = 'net.william278.toilet'
                             artifactId = 'toilet-fabric'
-                            version = "$rootProject.version+26.1.2"
+                            version = "$rootProject.version+$fabricVersion"
                             artifact tasks.named('shadowJar').get()
                             artifact tasks.named('sourcesJar').get()
                             artifact tasks.named('javadocJar').get()
