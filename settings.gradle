@@ -35,17 +35,6 @@ project(":fabric").with {
 
 file('fabric').listFiles((FileFilter) ((File file) -> file.isDirectory() && file.name ==~ /(\d+)\.(\d+)(\.(\d+))?/)).each {
     def fabricVersion = it.name
-    def fabricMajorVersion = fabricVersion.split('\\.')[0] as int
-
-    if (fabricMajorVersion >= 26) {
-        include("fabric-$fabricVersion")
-        project(":fabric-$fabricVersion").with {
-            projectDir = file("fabric/$fabricVersion")
-            buildFileName = 'build.gradle'
-        }
-        return
-    }
-
     include("fabric:$fabricVersion")
     project(":fabric:$fabricVersion").with {
         projectDir = file("fabric/$fabricVersion")

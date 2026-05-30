@@ -4,6 +4,7 @@ plugins {
     id 'org.cadixdev.licenser' version '0.6.1' apply false
     id 'gg.essential.multi-version.root' apply false
     id 'dev.architectury.loom' version '1.14-SNAPSHOT' apply false
+    id 'dev.architectury.loom-no-remap' version '1.14-SNAPSHOT' apply false
     id 'io.github.goooler.shadow' version '8.1.8'
     id 'org.ajoberstar.grgit' version '5.3.2'
     id 'maven-publish'
@@ -111,7 +112,14 @@ subprojects {
         return
     }
     if (project.parent?.name?.equals('fabric')) {
-        apply plugin: 'dev.architectury.loom'
+        def fabricVersion = it.name
+        def fabricMajorVersion = fabricVersion.split('\\.')[0] as int
+
+        if (fabricMajorVersion >= 26) {
+            apply plugin: 'dev.architectury.loom-no-remap'
+        } else {
+            apply plugin: 'dev.architectury.loom'
+        }
     }
 
     version rootProject.version
@@ -211,7 +219,11 @@ subprojects {
                             groupId = 'net.william278.toilet'
                             artifactId = 'toilet-fabric'
                             version = "$rootProject.version+$project.name"
-                            artifact tasks.named('remapJar').get()
+                            if (!platform.isUnobfuscated) {
+                                artifact tasks.named('remapJar').get()
+                            } else {
+                                artifact tasks.named('shadowJar').get()
+                            }
                             artifact tasks.named('sourcesJar').get()
                             artifact tasks.named('javadocJar').get()
                         }

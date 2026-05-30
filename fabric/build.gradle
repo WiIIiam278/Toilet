@@ -18,35 +18,52 @@ dependencies {
         fabricApiVersion = "0.131.0+1.21.8"
     } else if (platform.mcVersion == 12111) {
         fabricApiVersion = "0.139.5+1.21.11";
+    } else if (platform.mcVersion == 260102) {
+        fabricApiVersion = "0.146.1+26.1.2"
     } else {
         throw org.gradle.api.GradleException("Unsupported platform $platform")
     }
 
-    modCompileOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
+    if (platform.isUnobfuscated) {
+        compileOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
+        compileOnly 'org.projectlombok:lombok:1.18.38'
+    } else {
+        modCompileOnly "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
+        modCompileOnly 'org.projectlombok:lombok:1.18.38'
+    }
 
-    modCompileOnly 'org.projectlombok:lombok:1.18.38'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
     shadow project(path: ':common')
 }
 
+jar.enabled = false
+assemble.dependsOn shadowJar
 shadowJar {
     configurations = [project.configurations.shadow]
-    destinationDirectory.set(file("$projectDir/build/libs"))
+    if (!platform.isUnobfuscated) {
+        destinationDirectory.set(file("$projectDir/build/libs"))
+    } else {
+        destinationDirectory.set(file("$rootDir/target/"))
+        archiveClassifier.set('')
+    }
 
     exclude('net.fabricmc:.*')
     exclude('net.kyori:.*')
     exclude '/mappings/*'
 }
 
-remapJar {
-    dependsOn tasks.shadowJar
-    mustRunAfter tasks.shadowJar
-    inputFile = shadowJar.archiveFile.get()
-    addNestedDependencies = true
+if (!platform.isUnobfuscated) {
+    remapJar {
+        dependsOn tasks.shadowJar
+        mustRunAfter tasks.shadowJar
+        inputFile = shadowJar.archiveFile.get()
+        addNestedDependencies = true
 
-    destinationDirectory.set(file("$rootDir/target/"))
-    archiveClassifier.set('')
+        destinationDirectory.set(file("$rootDir/target/"))
+        archiveClassifier.set('')
+    }
+
+    shadowJar.finalizedBy(remapJar)
 }
-
-shadowJar.finalizedBy(remapJar)
