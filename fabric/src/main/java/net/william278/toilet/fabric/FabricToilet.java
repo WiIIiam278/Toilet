@@ -73,14 +73,23 @@ public class FabricToilet extends Toilet {
     @NotNull
     public ServerMeta getServerMeta() {
         final FabricLoader instance = FabricLoader.getInstance();
+
+        //#if MC>=260102
+        String serverVersion = server.getServerVersion();
+        boolean onlineMode = server.usesAuthentication();
+        //#else
+        //$$ String serverVersion = server.getVersion();
+        //$$ boolean onlineMode = server.isOnlineMode();
+        //#endif
+
         return ServerMeta.builder()
-                .minecraftVersion(server.getVersion())
+                .minecraftVersion(serverVersion)
                 .serverJarType(SERVER_TYPE)
                 .serverJarVersion(instance.getModContainer("fabricloader").map(m -> m.getMetadata()
                         .getVersion().getFriendlyString()).orElse("unknown"))
                 .proxyState(instance.isModLoaded(PROXY_MOD)
                         ? ServerMeta.ProxyState.BEHIND_VELOCITY_PROXY : ServerMeta.ProxyState.NO_PROXY)
-                .onlineMode(server.isOnlineMode())
+                .onlineMode(onlineMode)
                 .build();
     }
 
