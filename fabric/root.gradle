@@ -3,6 +3,7 @@ plugins {
 }
 
 preprocess {
+    def fabric260200 = createNode("26.2", 260200, "yarn")
     def fabric260102 = createNode("26.1.2", 260102, "yarn")
     def fabric12111 = createNode("1.21.11", 12111, "yarn")
     def fabric12108 = createNode("1.21.8", 12108, "yarn")
@@ -11,10 +12,11 @@ preprocess {
     def fabric12101 = createNode("1.21.1", 12101, "yarn")
     def fabric12001 = createNode("1.20.1", 12001, "yarn")
 
-    fabric12111.link(fabric260102, null)
-    fabric12108.link(fabric260102, null)
-    fabric12105.link(fabric260102, null)
-    fabric12104.link(fabric260102, null)
-    fabric12101.link(fabric260102, null)
-    fabric12001.link(fabric260102, null)
+    fabric260102.link(fabric260200, null)
+    fabric12111.link(fabric260200, null)
+    fabric12108.link(fabric260200, null)
+    fabric12105.link(fabric260200, null)
+    fabric12104.link(fabric260200, null)
+    fabric12101.link(fabric260200, null)
+    fabric12001.link(fabric260200, null)
 }
