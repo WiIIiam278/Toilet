@@ -92,4 +92,21 @@ public class FileUtilTests {
         );
     }
 
+    @Test
+    @DisplayName("Test password filtering")
+    void testPasswordFiltering() {
+        assertAll(
+                () -> assertEquals("<Censored Password>",
+                        FileFilterUtil.filterConfig("password: simplePassword")),
+                () -> assertEquals("<Censored Password>",
+                        FileFilterUtil.filterConfig("password: 'p@$$w0rd!#%^&*()_+-=[]{}|;:,.<>/?'")),
+                () -> assertEquals("<Censored Password>",
+                        FileFilterUtil.filterConfig("PASS : \"secret with spaces: and symbols?!\"")),
+                () -> assertEquals("database:\n  <Censored Password>\n  username: user",
+                        FileFilterUtil.filterConfig("database:\n  Password: complex.value@host:3306/#fragment\n  username: user")),
+                () -> assertEquals("compass: north",
+                        FileFilterUtil.filterConfig("compass: north"))
+        );
+    }
+
 }
