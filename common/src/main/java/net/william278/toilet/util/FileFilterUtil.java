@@ -31,7 +31,7 @@ public final class FileFilterUtil {
     );
 
     private static final Map<String, String> PASSWORD_FILTERS = Map.of(
-            "((password|PASSWORD|pass|PASS): ?('?\"?\\w+'?\"?))", "<Censored Password>",
+            "(?i)\\b(?:password|pass)\\s*:[^\\r\\n]*", "<Censored Password>",
             "(?:[0-9]{1,3}\\.){3}[0-9]{1,3}", "<Censored IP>"
     );
 
